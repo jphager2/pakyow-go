@@ -7,12 +7,12 @@ gem "puma"
 
 # your gems here
 gem 'ruby-go'
-gem 'sqlite3'
 gem 'activerecord'
 gem 'bcrypt'
 
 group :development do
   gem "dotenv"
+  gem 'sqlite3'
 end
 
 group :production do
