@@ -1,6 +1,7 @@
 require 'bundler/setup'
 
 require 'pakyow'
+require 'active_record'
 require 'ruby-go'
 
 Pakyow::App.define do
@@ -11,8 +12,12 @@ Pakyow::App.define do
 
   configure :development do
     # put development config here
-    app.database_url = "/home/john/projects/pakyow/pakyow-go/db/development.sqlite3"
-    app.adapter = "sqlite3"
+    require 'dotenv'
+    Dotenv.load
+
+    $db = ActiveRecord::Base.establish_connection(
+      adapter: 'sqlite3', database: ENV["DATABASE_PATH"]
+    )
   end
 
   configure :prototype do

@@ -14,13 +14,11 @@ Pakyow::App.routes do
 
   get :play, '/play/:x/:y' do
     # Need to persist game.board.board and game.moves
-    db_conn
     pgame = current_game
     game  = pgame.to_game
     game.send(pgame.turn, Integer(params[:y]), Integer(params[:x]))
 
     persist_game(game, true)
-    puts game.board
 
     redirect '/'
   end
@@ -28,7 +26,6 @@ Pakyow::App.routes do
   get '/' do
     # Replace game.board.board with persisted board
     # Replace game.moves with with persited moves
-    db_conn
     game = current_game.to_game
     data = data_from_board(game.board.board)
 

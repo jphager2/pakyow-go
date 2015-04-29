@@ -1,4 +1,3 @@
-require 'active_record'
 require_relative '../../models/persisted_game.rb'
 
 module Pakyow::Helpers
@@ -36,23 +35,4 @@ module Pakyow::Helpers
     pgame.set_next_turn if played
     pgame.save
   end 
-
-  def test_game
-    game = Game.new(board: 9)
-    game.black(2,2)
-    game.white(2,3)
-    game.black(3,3)
-    game.pass
-    game.black(2,4)
-    game.pass
-    game.black(1,3)
-    game
-  end
-
-  def db_conn
-    ActiveRecord::Base.establish_connection(
-      adapter:  config.app.adapter,
-      database: config.app.database_url
-    )
-  end
 end
