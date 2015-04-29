@@ -7,7 +7,7 @@ require 'ruby-go'
 Pakyow::App.define do
   configure :global do
     # put global config here and they'll be available across environments
-    app.name = 'Pakyow'
+    app.name = 'Pakyow-Go'
   end
 
   configure :development do
@@ -31,5 +31,9 @@ Pakyow::App.define do
 
   configure :production do
     # put your production config here
+  end
+
+  middleware do |builder|
+    builder.use Rack::Session::Cookie, key: "pakyowgo.session", secret: ENV["APP_SECRET"]
   end
 end

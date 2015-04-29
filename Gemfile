@@ -9,6 +9,7 @@ gem "puma"
 gem 'ruby-go'
 gem 'sqlite3'
 gem 'activerecord'
+gem 'bcrypt'
 
 group :development do
   gem "dotenv"
