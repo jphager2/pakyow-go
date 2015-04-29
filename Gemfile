@@ -7,3 +7,5 @@ gem "puma"
 
 # your gems here
 gem 'ruby-go'
+gem 'sqlite3'
+gem 'activerecord'

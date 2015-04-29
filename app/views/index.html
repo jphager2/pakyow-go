@@ -1,7 +1,36 @@
-<div data-scope="board" class="board">
-  <div data-scope="row" class="row">
-    <div data-scope="column" class="column">
-      <div data-prop="stone" class="stone"></div>
+<div data-scope="game" class="game"> 
+  <div class="links">
+    <p>
+      <a data-prop="new">Start a New Game</a>
+    </p>
+  </div>
+  <div data-scope="black" class="player">
+    <table>
+      <tr>
+        <th>Black: </th>
+        <td data-prop="name" class="name">Player</td>
+        <th>Captures: </th>
+        <td data-prop="captures" class="captures">0</td>
+      </tr>
+    </table>
+  </div>
+  <div data-scope="white" class="player">
+    <table>
+      <tr>
+        <th>White: </th>
+        <td data-prop="name" class="name">Player</td>
+        <th>Captures: </th>
+        <td data-prop="captures" class="captures">0</td>
+      </tr>
+    </table>
+  </div>
+  <div data-scope="board" class="board">
+    <div data-scope="row" class="row">
+      <div data-scope="column" class="column">
+        <a data-prop="play">
+          <div data-prop="stone" class="stone"></div>
+        </a>
+      </div>
     </div>
   </div>
 </div>

@@ -5,125 +5,47 @@ Pakyow::App.routes do
   # default do
   #   puts 'hello'
   # end
+  
+  get :new, '/new' do
+    PersistedGame.destroy_all
+
+    redirect '/'
+  end
+
+  get :play, '/play/:x/:y' do
+    # Need to persist game.board.board and game.moves
+    db_conn
+    pgame = current_game
+    game  = pgame.to_game
+    game.send(pgame.turn, Integer(params[:y]), Integer(params[:x]))
+
+    persist_game(game, true)
+    puts game.board
+
+    redirect '/'
+  end
 
   get '/' do
-=begin
-    data = {
-      playing_white: 'jphager2',
-      playing_black: 'moax',
-      rows: [
-        { columns: [ 
-          { stone: :black }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-        ]},
-        { columns: [ 
-          { stone: :black }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-        ]},
-        { columns: [ 
-          { stone: :black }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-        ]},
-        { columns: [ 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: :black }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: :black }, 
-        ]},
-        { columns: [ 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: :black }, 
-          { stone: nil }, 
-          { stone: :white }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-        ]},
-        { columns: [ 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: :black }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: :white }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-        ]},
-        { columns: [ 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: :black }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-        ]},
-        { columns: [ 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: :black }, 
-          { stone: nil }, 
-        ]},
-        { columns: [ 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: :black }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-          { stone: nil }, 
-        ]},
-      ]
-    }
-=end
-    game = Game.new(board: 9)
-    game.black(2,2)
-    game.white(6,6)
-    game.black(3,5)
+    # Replace game.board.board with persisted board
+    # Replace game.moves with with persited moves
+    db_conn
+    game = current_game.to_game
     data = data_from_board(game.board.board)
+
+    view.scope(:game).apply({})
 
     view.scope(:board).apply(data) do |rws, board_data|
       rws.scope(:row).apply(board_data[:rows]) do |cls, row_data|
         cls.scope(:column).apply(row_data[:columns])
       end
     end
+
+    captures = game.captures
+    data = { 
+      black: { name: "jphager2", captures: captures[:white] },
+      white: { name: "moax",     captures: captures[:black] }
+    }
+    view.scope(:white).apply(data[:white])
+    view.scope(:black).apply(data[:black])
   end
 end

@@ -1,0 +1,12 @@
+.game .player {
+  width: 300px;
+  border: 2px solid black;
+  display: inline-block
+}
+
+.game .player .name {
+}
+
+.game .player .color {
+  font-weight: bold;
+}

@@ -1,7 +1,11 @@
+.game {
+  display: block;
+  position: relative;
+}
+
 .board {
   position: absolute;
-  top: 50px;
-  left: 50px;
+  top: 70px;
 }
 
 .board .column {
@@ -14,7 +18,7 @@
 }
 
 .board .column:last-child {
-  border-top: 0px solid transparent;
+  border-top: 1px solid transparent;
 }
 
 .board .row {
@@ -23,7 +27,7 @@
 }
 
 .board .row:last-child .column {
-  border-left: 0px solid transparent;
+  border-left: 1px solid transparent;
 }
 
 .board .stone {

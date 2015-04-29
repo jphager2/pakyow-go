@@ -11,6 +11,8 @@ Pakyow::App.define do
 
   configure :development do
     # put development config here
+    app.database_url = "/home/john/projects/pakyow/pakyow-go/db/development.sqlite3"
+    app.adapter = "sqlite3"
   end
 
   configure :prototype do
