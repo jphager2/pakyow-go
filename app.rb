@@ -8,6 +8,8 @@ Pakyow::App.define do
   configure :global do
     # put global config here and they'll be available across environments
     app.name = 'Pakyow'
+
+    require_relative 'app/models/persisted_game.rb'
   end
 
   configure :development do
