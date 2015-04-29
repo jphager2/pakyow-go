@@ -3,3 +3,5 @@
 *.swa
 
 .env
+
+db/*.sqlite3

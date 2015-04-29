@@ -2,15 +2,34 @@ Pakyow::App.routes do
   # define your routes here
 
   # see something working by uncommenting the line below
-  default do
-    reroute router.group(:game).path(:game)
+  default '/' do
+    # Replace game.board.board with persisted board
+    # Replace game.moves with with persited moves
+    game = current_game.to_game
+    data = data_from_board(game.board.board)
+
+    view.scope(:game).apply({})
+
+    view.scope(:board).apply(data) do |rws, board_data|
+      rws.scope(:row).apply(board_data[:rows]) do |cls, row_data|
+        cls.scope(:column).apply(row_data[:columns])
+      end
+    end
+
+    captures = game.captures
+    data = { 
+      black: { name: "jphager2", captures: captures[:white] },
+      white: { name: "moax",     captures: captures[:black] }
+    }
+    view.scope(:white).apply(data[:white])
+    view.scope(:black).apply(data[:black])
   end
-  
+
   group :game do
     get :new, '/new' do
       PersistedGame.destroy_all
 
-      redirect router.group(:game).path(:game)
+      redirect router.path(:default)
     end
 
     get :play, '/play/:x/:y' do
@@ -21,30 +40,7 @@ Pakyow::App.routes do
 
       persist_game(game, true)
 
-      redirect router.group(:game).path(:game)
-    end
-
-    get :game, '/' do
-      # Replace game.board.board with persisted board
-      # Replace game.moves with with persited moves
-      game = current_game.to_game
-      data = data_from_board(game.board.board)
-
-      view.scope(:game).apply({})
-
-      view.scope(:board).apply(data) do |rws, board_data|
-        rws.scope(:row).apply(board_data[:rows]) do |cls, row_data|
-          cls.scope(:column).apply(row_data[:columns])
-        end
-      end
-
-      captures = game.captures
-      data = { 
-        black: { name: "jphager2", captures: captures[:white] },
-        white: { name: "moax",     captures: captures[:black] }
-      }
-      view.scope(:white).apply(data[:white])
-      view.scope(:black).apply(data[:black])
+      redirect router.path(:default)
     end
   end
 
@@ -71,6 +67,7 @@ Pakyow::App.routes do
 
   restful :session, '/sessions' do
     new do
+      redirect router.path(:default) if session[:user]
       view.scope(:session).with do |view|
         view.bind(@session || Session.new)
         handle_errors(view)

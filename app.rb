@@ -31,6 +31,7 @@ Pakyow::App.define do
 
   configure :production do
     # put your production config here
+    $db = ActiveRecord::Base.establish_connection
   end
 
   middleware do |builder|
