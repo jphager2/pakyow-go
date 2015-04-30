@@ -31,7 +31,9 @@ Pakyow::App.define do
 
   configure :production do
     # put your production config here
-    app.log_output = true # heroku fix
+    # heroku fixes
+    app.log_output = true 
+    app.static
 
     $db = ActiveRecord::Base.establish_connection
   end
