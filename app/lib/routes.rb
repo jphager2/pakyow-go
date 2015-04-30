@@ -76,7 +76,7 @@ Pakyow::App.routes do
     end
 
     get :download, '/download', before: [:tap_current_game] do
-      file_name = "tmp/game-#{@pgame.id}.sgf"
+      file_name = "#{@pgame.name}.sgf"
       File.open(file_name, 'w') { |f| f.write(@game.to_sgf) }
       file = File.open(file_name, 'r')
       File.delete(file_name)
