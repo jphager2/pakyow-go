@@ -9,6 +9,11 @@ namespace :db do
     $db.connection.drop_database($db.spec.config[:database])
   end
 
+  desc 'Create the database (only in production)'
+  task :create => [:'pakyow:prepare'] do
+    $db.connection.create_database(ENV["DATABASE_NAME"])
+  end
+
   desc 'Run active record migrations in db/migrate'
   task :migrate => [:'pakyow:prepare'] do
     ActiveRecord::Migrator.migrate(
