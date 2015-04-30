@@ -11,6 +11,14 @@ class PersistedGame < ActiveRecord::Base
     black_turn ? :black : :white
   end
 
+  def white_turn?
+    !black_turn
+  end
+
+  def black_turn?
+    black_turn
+  end
+
   def set_next_turn
     self.black_turn = !self.black_turn
   end

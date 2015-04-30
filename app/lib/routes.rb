@@ -16,6 +16,14 @@ Pakyow::App.routes do
       end
     end
 
+    view.scope(:white).with do |view|
+      view.prop(:turn).remove unless current_game.white_turn?
+    end 
+
+    view.scope(:black).with do |view|
+      view.prop(:turn).remove unless current_game.black_turn?
+    end 
+
     captures = game.captures
     data = { 
       black: { name: "jphager2", captures: captures[:white] },
@@ -25,6 +33,16 @@ Pakyow::App.routes do
     view.scope(:black).apply(data[:black])
   end
 
+  fn :tap_current_game do 
+    @pgame = current_game
+    @game  = @pgame.to_game
+  end
+
+  fn :persist_current_game do
+    persist_game(@game, true)
+    redirect router.path(:default)
+  end
+
   group :game do
     get :new, '/new' do
       PersistedGame.destroy_all
@@ -32,15 +50,15 @@ Pakyow::App.routes do
       redirect router.path(:default)
     end
 
-    get :play, '/play/:x/:y' do
+    get :pass, '/play/pass', before: [:tap_current_game], after: [:persist_current_game] do
+      @game.pass
+    end
+
+    get :play, '/play/:x/:y', before: [:tap_current_game], after: [:persist_current_game] do
       # Need to persist game.board.board and game.moves
-      pgame = current_game
-      game  = pgame.to_game
-      game.send(pgame.turn, Integer(params[:y]), Integer(params[:x]))
-
-      persist_game(game, true)
-
-      redirect router.path(:default)
+      @game.__send__(
+        @pgame.turn, Integer(params[:y]), Integer(params[:x])
+      )
     end
   end
 

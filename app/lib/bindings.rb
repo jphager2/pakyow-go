@@ -11,7 +11,16 @@ Pakyow::App.bindings do
 
   scope :game do
     binding :new do
-      { href: router.group(:game).path(:new) }
+      { 
+        href: router.group(:game).path(:new),
+        content: 'Start a new game'
+      }
+    end
+    binding :pass do
+      { 
+        href: router.group(:game).path(:pass),
+        content: 'Pass'
+      }
     end
   end
 
