@@ -40,12 +40,13 @@ Pakyow::App.routes do
 
   fn :tap_game_file do
     @file_name = "#{@pgame.name}.sgf"
-    File.open(@file_name, 'w') { |f| f.write(@game.to_sgf) }
-    @file = File.open(@file_name, 'r')
+    @file_path = "/tmp/#{@pgame.name}.sgf"
+    File.open(@file_path, 'w') { |f| f.write(@game.to_sgf) }
+    @file = File.open(@file_path, 'r')
   end
 
   fn :delete_game_file do
-    File.delete(@file_name)
+    File.delete(@file_path)
   end
 
   fn :tap_current_game do 
@@ -91,7 +92,7 @@ Pakyow::App.routes do
 
       mailer = Pakyow::Mailer.new(view: view.view)
       mailer.message.subject = "#{@pgame.user.name} has sent you an SGF"
-      mailer.message.add_file(@file_name)
+      mailer.message.add_file(@file_path)
       mailer.deliver_to(params[:email])
 
       puts Pakyow::App.config.mailer.delivery_method
