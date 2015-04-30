@@ -10,10 +10,11 @@ gem 'ruby-go'
 gem 'activerecord'
 gem 'bcrypt'
 
+gem 'letter_opener'
+
 group :development do
   gem 'dotenv'
   gem 'sqlite3'
-  gem 'letter_opener'
 end
 
 group :production do
