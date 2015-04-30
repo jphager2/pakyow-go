@@ -25,6 +25,10 @@ GEM
     htmlentities (4.3.3)
     i18n (0.7.0)
     json (1.8.2)
+    launchy (2.4.3)
+      addressable (~> 2.3)
+    letter_opener (1.3.0)
+      launchy (~> 2.2)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     mime-types (2.5)
@@ -76,6 +80,7 @@ DEPENDENCIES
   activerecord
   bcrypt
   dotenv
+  letter_opener
   pakyow (= 0.9.1)
   pg
   puma

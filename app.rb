@@ -3,15 +3,21 @@ require 'bundler/setup'
 require 'pakyow'
 require 'active_record'
 require 'ruby-go'
+require 'letter_opener'
 
 Pakyow::App.define do
   configure :global do
     # put global config here and they'll be available across environments
     app.name = 'Pakyow-Go'
+    mailer.default_sender = app.name
+    mailer.delivery_method = LetterOpener::DeliveryMethod
+    mailer.delivery_options[:location] = File
+      .expand_path('../tmp/letter_opener', __FILE__)
   end
 
   configure :development do
     # put development config here
+
     require 'dotenv'
     Dotenv.load
 

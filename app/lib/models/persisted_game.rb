@@ -1,13 +1,31 @@
 class PersistedGame < ActiveRecord::Base
 
   belongs_to :user
+  before_save :set_board_size
 
   def name
     "#{user.name} Game #{id}"
   end
 
+  def board_data
+    { 
+      rows: get_board.map.with_index { |row, x| 
+        { columns: row.map.with_index { |col, y| 
+          { stone: col.color, x: x, y: y, pgame_id: id } 
+        }} 
+      }
+    }
+  end
+
+  def update_game(game, played = false)
+    set_board(game.board)
+    set_moves(game.instance_variable_get(:@moves))
+    set_next_turn if played
+    save
+  end
+
   def to_game
-    game  = Game.new(board: 9)
+    game  = Game.new(board: board_size)
     game.board.board = get_board
     game.instance_variable_set(:@moves, get_moves)
     game
@@ -47,5 +65,11 @@ class PersistedGame < ActiveRecord::Base
 
   def get_moves
     YAML.load(moves)
+  end
+
+  def set_board_size
+    if !board_size && board.present?
+      self.board_size = get_board.length
+    end
   end
 end

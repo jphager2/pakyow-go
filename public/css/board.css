@@ -5,12 +5,69 @@
 
 .board {
   position: absolute;
+}
+
+.board.size-9 {
   top: 120px;
 }
 
-.board .column {
+.board.size-9 .column {
   width: 50px;
   height: 50px;
+}
+
+.board.size-9 .row {
+  height: 51px;
+}
+
+.board.size-9 .stone {
+  width: 46px;
+  height: 46px;
+  top: -26px;
+  left: -24px;
+}
+
+.board.size-13 {
+  top: 110px;
+}
+
+.board.size-13 .column {
+  width: 40px;
+  height: 40px;
+}
+
+.board.size-13 .row {
+  height: 41px;
+}
+
+.board.size-13 .stone {
+  width: 36px;
+  height: 36px;
+  top: -21px;
+  left: -19px;
+}
+
+.board.size-19 {
+  top: 105px;
+}
+
+.board.size-19 .column {
+  width: 30px;
+  height: 30px;
+}
+
+.board.size-19 .row {
+  height: 31px;
+}
+
+.board.size-19 .stone {
+  width: 26px;
+  height: 26px;
+  top: -16px;
+  left: -14px;
+}
+
+.board .column {
   border-left: 1px solid black;
   border-top: 1px solid black;
   display: inline-block;
@@ -25,7 +82,6 @@
 
 .board .row {
   display: block;
-  height: 51px;
 }
 
 .board .row:last-child .column {
@@ -34,13 +90,9 @@
 }
 
 .stone {
-  width: 46px;
-  height: 46px;
   border: 1px solid transparent;
   border-radius: 100%;
   position: relative;
-  top: -26px;
-  left: -24px;
 }
 
 .stone.black, .stone.white {

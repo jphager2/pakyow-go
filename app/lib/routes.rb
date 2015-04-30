@@ -7,9 +7,9 @@ Pakyow::App.routes do
     # Replace game.moves with with persited moves
     @pgame ||= current_game
     game = @pgame.to_game
-    data = data_from_board(game.board.board)
+    data = @pgame.board_data
 
-    view.scope(:game).apply({})
+    view.scope(:game).apply({ pgame: @pgame })
 
     view.scope(:board).apply(data) do |rws, board_data|
       rws.scope(:row).apply(board_data[:rows]) do |cls, row_data|
@@ -38,50 +38,75 @@ Pakyow::App.routes do
     view.scope(:black).apply(data[:black])
   end
 
+  fn :tap_game_file do
+    @file_name = "#{@pgame.name}.sgf"
+    File.open(@file_name, 'w') { |f| f.write(@game.to_sgf) }
+    @file = File.open(@file_name, 'r')
+  end
+
+  fn :delete_game_file do
+    File.delete(@file_name)
+  end
+
   fn :tap_current_game do 
-    @pgame = current_game
+    @pgame = PersistedGame.find(params[:game_id])
     @game  = @pgame.to_game
   end
 
   fn :persist_current_game do
-    persist_game(@game, true)
-    redirect router.path(:default)
+    @pgame.update_game(@game, true)
+    redirect router.group(:game).path(:show, game_id: @pgame.id)
   end
 
   group :game do
-    get :new, '/new' do
-      new_game(Game.new(board: 9))
+    get :new, '/games/new' do
+      new_game(Game.new(board: (params[:size] || 9).to_i))
 
       redirect router.path(:default)
     end
 
-    get :undo, '/undo', before: [:tap_current_game] do
+    get :undo, '/games/:game_id/undo', before: [:tap_current_game] do
       unless @game.instance_variable_get(:@moves).empty?
         @game.undo
-        persist_game(@game, true)
+        @pgame.update_game(@game, true)
       end
 
-      redirect router.path(:default)
+      redirect router.group(:game).path(:show, game_id: @pgame.id)
     end
 
-    get :pass, '/pass', before: [:tap_current_game], after: [:persist_current_game] do
+    get :pass, '/games/:game_id/pass', before: [:tap_current_game], after: [:persist_current_game] do
       @game.__send__("#{@pgame.turn}_pass")
     end
 
-    get :play, '/play/:x/:y', before: [:tap_current_game], after: [:persist_current_game] do
+    get :play, '/games/:game_id/play/:x/:y', before: [:tap_current_game], after: [:persist_current_game] do
       # Need to persist game.board.board and game.moves
       @game.__send__(
         @pgame.turn, Integer(params[:y]), Integer(params[:x])
       )
     end
 
-    get :download, '/download', before: [:tap_current_game] do
-      file_name = "#{@pgame.name}.sgf"
-      File.open(file_name, 'w') { |f| f.write(@game.to_sgf) }
-      file = File.open(file_name, 'r')
-      File.delete(file_name)
+    post :send_email, '/games/:game_id/email/send', before: [:tap_current_game, :tap_game_file], after: [:delete_game_file] do
+      view.scope(:user).apply(@pgame.user)
+      view.scope(:user_game).apply(@pgame)
 
-      send(file, 'txt/sgf', file_name)
+      mailer = Pakyow::Mailer.new(view: view.view)
+      mailer.message.subject = "#{@pgame.user.name} has sent you an SGF"
+      mailer.message.add_file(@file_name)
+      mailer.deliver_to(params[:email])
+
+      puts Pakyow::App.config.mailer.delivery_method
+
+      redirect router.group(:user).path(:show, user_id: @pgame.user.id)
+    end
+
+    get :email, '/games/:game_id/email', before: [:tap_current_game] do
+      view.scope(:email_game).apply(@pgame)
+      view.scope(:link).apply({})
+      view.scope(:user_game).apply([@pgame])
+    end
+
+    get :download, '/games/:game_id/download', before: [:tap_current_game, :tap_game_file], after: [:delete_game_file] do
+      send(@file, 'txt/sgf', @file_name)
     end
 
     get :show, '/games/:game_id' do

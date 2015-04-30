@@ -11,11 +11,12 @@ gem 'activerecord'
 gem 'bcrypt'
 
 group :development do
-  gem "dotenv"
+  gem 'dotenv'
   gem 'sqlite3'
+  gem 'letter_opener'
 end
 
 group :production do
-  gem "pg"
+  gem 'pg'
 end
 
