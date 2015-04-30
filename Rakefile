@@ -6,12 +6,12 @@ desc 'database tasks'
 namespace :db do
   desc 'Drop the database (only in production)'
   task :drop => [:'pakyow:prepare'] do
-    $db.connection.drop_database($db.spec.config[:database])
+    ActiveRecord::Base.connection.drop_database($db.spec.config[:database])
   end
 
   desc 'Create the database (only in production)'
   task :create => [:'pakyow:prepare'] do
-    $db.connection.create_database(ENV["DATABASE_NAME"])
+    ActiveRecord::Base.connection.create_database(ENV["DATABASE_NAME"])
   end
 
   desc 'Run active record migrations in db/migrate'
