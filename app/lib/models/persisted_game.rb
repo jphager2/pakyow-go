@@ -1,5 +1,11 @@
 class PersistedGame < ActiveRecord::Base
 
+  belongs_to :user
+
+  def name
+    "#{user.name} Game #{id}"
+  end
+
   def to_game
     game  = Game.new(board: 9)
     game.board.board = get_board

@@ -1,7 +1,8 @@
 .game .player {
   width: 300px;
   border: 2px solid black;
-  display: inline-block
+  display: inline-block;
+  margin-bottom: 15px; 
 }
 
 .game .player .name {

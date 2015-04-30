@@ -5,7 +5,7 @@
 
 .board {
   position: absolute;
-  top: 100px;
+  top: 120px;
 }
 
 .board .column {
@@ -15,10 +15,12 @@
   border-top: 1px solid black;
   display: inline-block;
   margin-left: 0;
+  background: url(/images/board.png);
 }
 
 .board .column:last-child {
   border-top: 1px solid transparent;
+  background:transparent;
 }
 
 .board .row {
@@ -28,6 +30,7 @@
 
 .board .row:last-child .column {
   border-left: 1px solid transparent;
+  background:transparent;
 }
 
 .stone {

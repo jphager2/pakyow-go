@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
     EMAIL_REGEX = /\A[A-Z0-9._%+-]+@(?:[A-Z0-9-]+\.)+[A-Z]{2,4}\z/i
   end
 
+  has_many :persisted_games
+
   attr_accessor :password, :password_confirmation
 
   before_validation :downcase_email
@@ -23,8 +25,16 @@ class User < ActiveRecord::Base
     end
   end
 
+  def guest?
+    kind_of?(GuestUser)
+  end
+
   def auth?(password)
     BCrypt::Password.new(crypted_password) == password 
+  end
+
+  def name
+    email.sub(/@.+/, '')
   end
 
   def password=(password)

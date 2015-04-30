@@ -1,6 +1,33 @@
 module Pakyow::Helpers
   # define methods here that are available from routes, bindings, etc
 
+  def current_user?
+    !!current_user
+  end
+
+  def current_user
+    User.find(session[:user]) if session[:user]
+  rescue ActiveRecord::RecordNotFound
+    session[:user] = nil
+  end
+
+  def current_guest_user
+    if session[:guest_user]
+      guest = GuestUser.find(session[:guest_user])
+    else
+      guest = GuestUser.new
+      guest.save(validate: false)
+      session[:guest_user] = guest.id
+      guest
+    end
+  rescue ActiveRecord::RecordNotFound
+    session[:guest_user] = nil
+  end
+
+  def current_or_guest_user
+    current_user? ? current_user : current_guest_user
+  end
+
   def data_from_board(board)
     { rows: board.map.with_index { |row, x| 
       { columns: row.map.with_index { |col, y| 
@@ -19,19 +46,28 @@ module Pakyow::Helpers
   end
 
   def persisted_game
-    PersistedGame.last
+    current_or_guest_user.persisted_games.last
   end
 
   def persisted_game?
-    !!PersistedGame.last
+    !!persisted_game
+  end
+
+  def new_game(game)
+    PersistedGame.create(user_id: current_or_guest_user.id)
+    persist_game(game)
   end
 
   def persist_game(game, played = false)
-    pgame = PersistedGame.last || PersistedGame.new
-    pgame.set_board(game.board)
-    pgame.set_moves(game.instance_variable_get(:@moves))
-    pgame.set_next_turn if played
-    pgame.save
+    if pgame = persisted_game
+      pgame.set_board(game.board)
+      pgame.set_moves(game.instance_variable_get(:@moves))
+      pgame.set_next_turn if played
+      pgame.user_id = current_or_guest_user.id
+      pgame.save
+    else
+      new_game(game)
+    end
   end 
 
   def handle_errors(view)

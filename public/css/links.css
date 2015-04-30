@@ -1,0 +1,14 @@
+.links a {
+  padding-right: 10px;
+  font-weight: bold;
+}
+
+.links a.button {
+  color: white;
+  height: 25px;
+  padding: 2px 5px 2px 5px;
+  background: #206cb1;
+  border: 2px solid #2088cc;
+  margin: 5px 5px 0 0;
+}
+
