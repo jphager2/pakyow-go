@@ -50,12 +50,12 @@ Pakyow::App.routes do
   end
 
   fn :tap_current_game do 
-    @pgame = PersistedGame.find(params[:game_id])
+    @pgame = data(:persisted_game).find(params[:game_id])
     @game  = @pgame.to_game
   end
 
   fn :persist_current_game do
-    @pgame.update_game(@game, true)
+    data(:persisted_game).update_game(@pgame, @game, true)
     redirect router.group(:game).path(:show, game_id: @pgame.id)
   end
 
@@ -109,7 +109,8 @@ Pakyow::App.routes do
     end
 
     get :show, '/games/:game_id' do
-      @pgame = current_or_guest_user.persisted_games.find_by(id: params[:game_id])
+      user   = current_or_guest_user
+      @pgame = data(:persisted_game).current_game(user,params[:game_id])
 
       reroute router.path(:default)
     end

@@ -25,7 +25,7 @@ class PersistedGame < ActiveRecord::Base
   end
 
   def to_game
-    game  = Game.new(board: board_size)
+    game = Game.new(board: board_size)
     game.board.board = get_board
     game.instance_variable_set(:@moves, get_moves)
     game
