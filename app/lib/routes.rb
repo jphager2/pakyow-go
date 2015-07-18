@@ -95,8 +95,6 @@ Pakyow::App.routes do
       mailer.message.add_file(@file_path)
       mailer.deliver_to(params[:email])
 
-      puts Pakyow::App.config.mailer.delivery_method
-
       redirect router.group(:user).path(:show, user_id: @pgame.user.id)
     end
 
