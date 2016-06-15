@@ -1,7 +1,5 @@
 Pakyow::App.routes do
-  # define your routes here
 
-  # see something working by uncommenting the line below
   default '/' do
     # Replace game.board.board with persisted board
     # Replace game.moves with with persited moves
@@ -60,7 +58,7 @@ Pakyow::App.routes do
   end
 
   group :game do
-    get :new, '/games/new' do
+    get :new, /games\/new\/(?<size>([^\/]*))/ do
       new_game(Game.new(board: (params[:size] || 9).to_i))
 
       redirect router.path(:default)

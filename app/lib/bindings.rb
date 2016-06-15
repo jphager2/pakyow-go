@@ -47,10 +47,8 @@ Pakyow::App.bindings do
       }
     end
     binding :new_9 do
-      { 
-        href: router.group(:game).path(:new, size: 9),
-        content: '(9)'
-      }
+      part(:href) { router.group(:game).path(:new, size: 9) }
+      part(:content) { "(9)" }
     end
     binding :new_13 do
       { 
