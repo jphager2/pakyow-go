@@ -1,14 +1,6 @@
-Pakyow::App.bindings do
+Pakyow::App.bindings :other do
   # define bindings here
   
-  scope :user do
-    restful :user
-  end
-
-  scope :session do
-    restful :session
-  end
-
   scope :user_game do
     binding :sgf do
       { content: bindable.to_game.to_sgf }
@@ -47,20 +39,25 @@ Pakyow::App.bindings do
       }
     end
     binding :new_9 do
-      part(:href) { router.group(:game).path(:new, size: 9) }
+      part :href do
+        path = router.group(:game).path(:new) 
+        Addressable::URI.new(path: path, query_values: { size: 9 })
+      end
       part(:content) { "(9)" }
     end
     binding :new_13 do
-      { 
-        href: router.group(:game).path(:new, size: 13),
-        content: '(13)'
-      }
+      part :href do
+        path = router.group(:game).path(:new) 
+        Addressable::URI.new(path: path, query_values: { size: 13 })
+      end
+      part(:content) { '(13)' }
     end
     binding :new_19 do
-      { 
-        href: router.group(:game).path(:new, size: 19),
-        content: '(19)'
-      }
+      part :href do
+        path = router.group(:game).path(:new) 
+        Addressable::URI.new(path: path, query_values: { size: 19 })
+      end
+      part(:content) { '(19)' }
     end
     binding :pass do
       { 

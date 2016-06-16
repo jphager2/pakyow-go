@@ -58,7 +58,7 @@ Pakyow::App.routes do
   end
 
   group :game do
-    get :new, /games\/new\/(?<size>([^\/]*))/ do
+    get :new, 'games/new' do
       new_game(Game.new(board: (params[:size] || 9).to_i))
 
       redirect router.path(:default)
@@ -113,72 +113,6 @@ Pakyow::App.routes do
     end
   end
 
-  restful :user, '/users' do
-    new do
-      view.scope(:user).with do |view|
-        view.bind(@user || User.new)
-        handle_errors(view)
-      end
-    end
-
-    create do
-      @user = User.new(params[:user])
-
-      if @user.valid?
-        @user.save
-        if session[:guest_user]
-          @user.persisted_games = current_guest_user.persisted_games
-          current_guest_user.destroy
-          session[:guest_user] = nil
-        end
-        
-        redirect router.path(:default)
-      else
-        @errors = @user.errors
-        reroute router.group(:user).path(:new), :get
-      end
-    end
-
-    show do
-      @user = current_or_guest_user
-
-      unless @user.id == params[:user_id].to_i
-        redirect router.path(:default) 
-      end
-
-      view.scope(:user_game).apply(@user.persisted_games)
-    end
-  end
-
-  restful :session, '/sessions' do
-    new do
-      redirect router.path(:default) if session[:user]
-      view.scope(:session).with do |view|
-        view.bind(@session || Session.new)
-        handle_errors(view)
-      end
-
-      view.scope(:link).apply({})
-    end
-
-    create do
-      @session = Session.new(params[:session])
-
-      if user = User.auth(@session)
-        session[:user] = user.id
-        redirect router.path(:default)
-      else
-        @errors = ['Invalid email and/or password']
-        reroute router.group(:session).path(:new), :get
-      end
-    end
-
-    remove do
-      session[:user] = nil
-      redirect router.path(:default)
-    end
-  end
-
   get :login, '/login' do
     reroute router.group(:session).path(:new), :get
   end
@@ -187,3 +121,4 @@ Pakyow::App.routes do
     reroute router.group(:session).path(:remove), :delete
   end
 end
+
