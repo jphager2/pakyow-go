@@ -2,7 +2,7 @@ module Pakyow::Helpers
   # define methods here that are available from routes, bindings, etc
 
   def current_user?
-    !!current_user
+    current_user
   end
 
   def current_user
@@ -38,21 +38,22 @@ module Pakyow::Helpers
   end
 
   def persisted_game
-    current_or_guest_user.persisted_games.last
+    data(:game)
+      .find_by(current_or_guest_user.persisted_games.pluck(:id).last)
   end
 
   def persisted_game?
-    !!persisted_game
+    persisted_game.data
   end
 
   def new_game(game)
-    PersistedGame.create(user_id: current_or_guest_user.id)
-    persist_game(game)
+    pgame = PersistedGame.create(user_id: current_or_guest_user.id)
+    data(:game).update(pgame, game, false)
   end
 
   def persist_game(game, played = false)
-    if pgame = persisted_game
-      pgame.update_game(game, played)
+    if persisted_game?
+      persisted_game.data.update_game(game, played)
     else
       new_game(game)
     end
@@ -79,6 +80,6 @@ module Pakyow::Helpers
   end
 
   def pretty_errors(errors)
-    Array(errors).map { |error|error.gsub('_', ' ').capitalize }
+    Array(errors).map { |error| error.gsub('_', ' ').capitalize }
   end
 end

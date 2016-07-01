@@ -41,9 +41,9 @@
   <div data-scope="board" data-prop="board_size" class="board">
     <div data-scope="row" class="row">
       <div data-scope="column" class="column">
-        <a data-prop="play">
-          <div data-prop="stone" class="stone"></div>
-        </a>
+        <form data-prop="play" data-ui="mutable" method="post">
+          <button data-prop="stone" class="stone" type="submit"></button>
+        </form>
       </div>
     </div>
   </div>

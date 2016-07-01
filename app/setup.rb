@@ -43,8 +43,4 @@ Pakyow::App.define do
 
     $db = ActiveRecord::Base.establish_connection
   end
-
-  middleware do |builder|
-    builder.use Rack::Session::Cookie, key: "pakyowgo.session", secret: ENV["APP_SECRET"]
-  end
 end

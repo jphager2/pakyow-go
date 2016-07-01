@@ -1,4 +1,4 @@
-Pakyow::App.bindings :other do
+Pakyow::App.bindings do
   # define bindings here
   
   scope :user_game do
@@ -120,18 +120,18 @@ Pakyow::App.bindings :other do
 
   scope :column do
     binding :play do
-      { 
-        href: router.group(:game)
-          .path(
-            :play, 
-            x: bindable[:x], 
-            y: bindable[:y], 
-            game_id: bindable[:pgame_id]
-          ) 
-      }
+      part :action do
+        router.group(:game).path(
+          :play, 
+          x: bindable[:x], 
+          y: bindable[:y], 
+          game_id: bindable[:pgame_id])
+      end
     end
     binding :stone do
-      { class: ->(klass) { klass << bindable[:stone] } }
+      part :class do |klass|
+        klass.set(["stone", bindable[:stone]])
+      end
     end
   end
 

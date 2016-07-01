@@ -89,25 +89,34 @@
   background:transparent;
 }
 
-.stone {
+.board .stone {
   border: 1px solid transparent;
   border-radius: 100%;
   position: relative;
 }
 
-.stone.black, .stone.white {
+.board .stone:focus {
+  outline: 0;
+}
+
+.board .stone.black, .stone.white {
   border: 1px solid black;
+  cursor: auto;
 }
 
-.stone.black {
-  background-color: black;
+.board .stone.black {
+  background: black;
 }
 
-.stone.white {
-  background-color: white;
+.board .stone.white {
+  background: white;
 }
 
-.stone.small {
+.board .stone.empty {
+  background: transparent;
+}
+
+.board .stone.small {
   height: 15px;
   width: 15px;
   position: static
