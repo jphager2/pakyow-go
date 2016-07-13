@@ -38,8 +38,8 @@ Pakyow::App.define do
   configure :production do
     # put your production config here
     # heroku fixes
-    app.log_output = true 
     app.static = true
+    logger.stdout = true
     realtime.registry = Pakyow::Realtime::SimpleRegistry
 
     $db = ActiveRecord::Base.establish_connection
