@@ -3,6 +3,7 @@
   border: 2px solid black;
   display: inline-block;
   margin-bottom: 15px; 
+  padding: 10px;
 }
 
 .game .player .name {
@@ -10,4 +11,13 @@
 
 .game .player .color {
   font-weight: bold;
+}
+
+.player .stone {
+  margin-top: -6px;
+  visibility: hidden;
+}
+
+.player .stone.turn {
+  visibility: visible;
 }

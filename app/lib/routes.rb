@@ -1,9 +1,6 @@
 Pakyow::App.routes do
 
   default '/' do
-    Pakyow.logger.info "[Config][Realtime][Redis] #{Pakyow.app.config.realtime.redis}"
-    # Replace game.board.board with persisted board
-    # Replace game.moves with with persited moves
     @pgame ||= current_game
 
     view.scope(:game).mutate(:show, with: @pgame).subscribe

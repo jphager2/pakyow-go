@@ -144,4 +144,28 @@ Pakyow::App.bindings do
       }
     end
   end
+
+  scope :black do
+    binding :turn do
+      part :class do |klass|
+        if bindable[:turn]
+          klass.ensure("turn")
+        else
+          klass.deny("turn")
+        end
+      end
+    end
+  end
+
+  scope :white do
+    binding :turn do
+      part :class do |klass|
+        if bindable[:turn]
+          klass.ensure("turn")
+        else
+          klass.deny("turn")
+        end
+      end
+    end
+  end
 end

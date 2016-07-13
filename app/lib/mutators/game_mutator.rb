@@ -14,18 +14,10 @@ Pakyow::App.mutators :game do
       end
     end
 
-    view.scope(:white).with do |view|
-      view.prop(:turn).remove unless pgame.white_turn?
-    end 
-
-    view.scope(:black).with do |view|
-      view.prop(:turn).remove unless pgame.black_turn?
-    end 
-
     captures = game.captures
     players = { 
-      black: { name: "Player 1", captures: captures[:white] },
-      white: { name: "Player 2", captures: captures[:black] }
+      black: { name: "Player 1", captures: captures[:white], turn: pgame.black_turn? },
+      white: { name: "Player 2", captures: captures[:black], turn: pgame.white_turn? }
     }
 
     unless pgame.user.guest?

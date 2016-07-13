@@ -119,5 +119,5 @@
 .board .stone.small {
   height: 15px;
   width: 15px;
-  position: static
+  position: static;
 }
