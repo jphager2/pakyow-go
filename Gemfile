@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "pakyow"
+gem "pakyow", github: "jphager2/pakyow", branch: "bug-to-h-on-session"
 
 # application server
 gem "puma"
