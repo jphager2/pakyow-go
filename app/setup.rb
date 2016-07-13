@@ -40,7 +40,8 @@ Pakyow::App.define do
     # heroku fixes
     app.static = true
     logger.stdout = true
-    realtime.registry = Pakyow::Realtime::SimpleRegistry
+    #realtime.registry = Pakyow::Realtime::SimpleRegistry
+    realtime.redis = { url: "redis://h:p7vo203cje5f5o48slhgm2ds1ko@ec2-54-235-76-229.compute-1.amazonaws.com:6909" }
 
     $db = ActiveRecord::Base.establish_connection
   end
