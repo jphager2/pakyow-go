@@ -40,6 +40,7 @@ Pakyow::App.define do
     # heroku fixes
     app.log_output = true 
     app.static = true
+    realtime.registry = Pakyow::Realtime::SimpleRegistry
 
     $db = ActiveRecord::Base.establish_connection
   end
