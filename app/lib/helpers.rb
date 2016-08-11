@@ -39,7 +39,7 @@ module Pakyow::Helpers
 
   def persisted_game
     data(:game)
-      .find_by(current_or_guest_user.persisted_games.pluck(:id).last)
+      .find_by(id: current_or_guest_user.persisted_games.pluck(:id).last)
   end
 
   def persisted_game?

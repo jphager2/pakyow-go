@@ -44,7 +44,7 @@ Pakyow::App.routes do
     end
 
     get :pass, '/games/:game_id/pass', before: [:tap_current_game], after: [:persist_current_game] do
-      @game.__send__("#{@pgame.data.turn}_pass")
+      @game.pass(@pgame.data.turn)
     end
 
     post :play, '/games/:game_id/play/:x/:y', before: [:tap_current_game], after: [:persist_current_game] do

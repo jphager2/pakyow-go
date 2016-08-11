@@ -1,12 +1,12 @@
 source "https://rubygems.org"
 
-gem "pakyow", github: "jphager2/pakyow", branch: "bug-to-h-on-session"
+gem "pakyow", github: "pakyow/pakyow", branch: "stable"
 
 # application server
 gem "puma"
 
 # your gems here
-gem 'ruby-go'
+gem 'ruby-go', '~> 0.2.0'
 gem 'activerecord'
 gem 'bcrypt'
 

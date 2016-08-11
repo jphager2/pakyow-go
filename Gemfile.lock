@@ -1,54 +1,54 @@
 GIT
-  remote: git://github.com/jphager2/pakyow.git
-  revision: eab2e0daaaae259e809bad9ca6fc959f0d37264e
-  branch: bug-to-h-on-session
+  remote: git://github.com/pakyow/pakyow.git
+  revision: b1322e9b40fdd2a837df8cd041054cb028cf8c58
+  branch: stable
   specs:
-    pakyow (0.11.2)
+    pakyow (0.11.3)
       bundler (~> 1.10)
-      pakyow-core (= 0.11.2)
-      pakyow-mailer (= 0.11.2)
-      pakyow-presenter (= 0.11.2)
-      pakyow-rake (= 0.11.2)
-      pakyow-realtime (= 0.11.2)
-      pakyow-support (= 0.11.2)
-      pakyow-test (= 0.11.2)
-      pakyow-ui (= 0.11.2)
+      pakyow-core (= 0.11.3)
+      pakyow-mailer (= 0.11.3)
+      pakyow-presenter (= 0.11.3)
+      pakyow-rake (= 0.11.3)
+      pakyow-realtime (= 0.11.3)
+      pakyow-support (= 0.11.3)
+      pakyow-test (= 0.11.3)
+      pakyow-ui (= 0.11.3)
       thor (~> 0.19)
-    pakyow-core (0.11.2)
-      pakyow-support (= 0.11.2)
+    pakyow-core (0.11.3)
+      pakyow-support (= 0.11.3)
       rack (~> 1.6)
-    pakyow-mailer (0.11.2)
+    pakyow-mailer (0.11.3)
       mail (~> 2.6)
-      pakyow-core (= 0.11.2)
-      pakyow-presenter (= 0.11.2)
-      pakyow-support (= 0.11.2)
+      pakyow-core (= 0.11.3)
+      pakyow-presenter (= 0.11.3)
+      pakyow-support (= 0.11.3)
       premailer (~> 1.8)
-    pakyow-presenter (0.11.2)
+    pakyow-presenter (0.11.3)
       oga (~> 2.0)
-      pakyow-core (= 0.11.2)
-      pakyow-support (= 0.11.2)
-    pakyow-rake (0.11.2)
-      pakyow-core (= 0.11.2)
-      pakyow-presenter (= 0.11.2)
-      pakyow-support (= 0.11.2)
+      pakyow-core (= 0.11.3)
+      pakyow-support (= 0.11.3)
+    pakyow-rake (0.11.3)
+      pakyow-core (= 0.11.3)
+      pakyow-presenter (= 0.11.3)
+      pakyow-support (= 0.11.3)
       rake (~> 11.1)
-    pakyow-realtime (0.11.2)
+    pakyow-realtime (0.11.3)
       concurrent-ruby (~> 1.0)
-      pakyow-core (= 0.11.2)
-      pakyow-support (= 0.11.2)
+      pakyow-core (= 0.11.3)
+      pakyow-support (= 0.11.3)
       redis (~> 3.2)
       websocket (~> 1.2)
-    pakyow-support (0.11.2)
-    pakyow-test (0.11.2)
-      pakyow-core (= 0.11.2)
-      pakyow-mailer (= 0.11.2)
-      pakyow-presenter (= 0.11.2)
-      pakyow-support (= 0.11.2)
-    pakyow-ui (0.11.2)
-      pakyow-core (= 0.11.2)
-      pakyow-presenter (= 0.11.2)
-      pakyow-realtime (= 0.11.2)
-      pakyow-support (= 0.11.2)
+    pakyow-support (0.11.3)
+    pakyow-test (0.11.3)
+      pakyow-core (= 0.11.3)
+      pakyow-mailer (= 0.11.3)
+      pakyow-presenter (= 0.11.3)
+      pakyow-support (= 0.11.3)
+    pakyow-ui (0.11.3)
+      pakyow-core (= 0.11.3)
+      pakyow-presenter (= 0.11.3)
+      pakyow-realtime (= 0.11.3)
+      pakyow-support (= 0.11.3)
 
 GEM
   remote: https://rubygems.org/
@@ -90,7 +90,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
     minitest (5.9.0)
-    oga (2.2)
+    oga (2.3)
       ast
       ruby-ll (~> 2.1)
     pg (0.18.4)
@@ -100,8 +100,8 @@ GEM
     puma (3.4.0)
     rack (1.6.4)
     rake (11.2.2)
-    redis (3.3.0)
-    ruby-go (0.1.0)
+    redis (3.3.1)
+    ruby-go (0.2.0)
       SgfParser (~> 2.0.0)
     ruby-ll (2.1.2)
       ansi
@@ -124,7 +124,7 @@ DEPENDENCIES
   pakyow!
   pg
   puma
-  ruby-go
+  ruby-go (~> 0.2.0)
   sqlite3
 
 BUNDLED WITH

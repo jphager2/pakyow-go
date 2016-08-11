@@ -5,6 +5,8 @@ require 'active_record'
 require 'ruby-go'
 require 'letter_opener'
 
+include RubyGo
+
 Pakyow::App.define do
   configure :global do
     # put global config here and they'll be available across environments
