@@ -13,19 +13,26 @@ Pakyow::App.define do
     app.name = 'Pakyow-Go'
     mailer.default_sender = app.name
     mailer.delivery_method = LetterOpener::DeliveryMethod
-    mailer.delivery_options[:location] = File
-      .expand_path('../tmp/letter_opener', __FILE__)
+    mailer.delivery_options[:location] = File.expand_path(
+      '../tmp/letter_opener', __FILE__
+    )
+
+    config_file = File.expand_path('../config/database.yml', __dir__)
+    ActiveRecord::Base.configurations = YAML.load_file(config_file)
   end
 
   configure :development do
-    # put development config here
-
     require 'dotenv'
     Dotenv.load
 
-    $db = ActiveRecord::Base.establish_connection(
-      adapter: 'sqlite3', database: ENV["DATABASE_PATH"]
-    )
+    $db = ActiveRecord::Base.establish_connection(:development)
+  end
+
+  configure :test do
+    require 'dotenv'
+    Dotenv.load
+
+    $db = ActiveRecord::Base.establish_connection(:test)
   end
 
   configure :prototype do
@@ -34,19 +41,13 @@ Pakyow::App.define do
   end
 
   configure :staging do
-    # put your staging config here
   end
 
   configure :production do
-    # put your production config here
-    # heroku fixes
     app.static = true
     logger.stdout = true
-    #realtime.registry = Pakyow::Realtime::SimpleRegistry
     realtime.redis = { url: "redis://h:p7vo203cje5f5o48slhgm2ds1ko@ec2-54-235-76-229.compute-1.amazonaws.com:6909" }
 
-    $db = ActiveRecord::Base.establish_connection
+    $db = ActiveRecord::Base.establish_connection(:production)
   end
 end
-
-

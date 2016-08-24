@@ -1,0 +1,12 @@
+default: &default
+  adapter: sqlite3
+  encoding: utf-8
+  pool: 5
+
+test:
+  <<: *default
+  database: db/test.sqlite3
+
+development:
+  <<: *default
+  database: db/development.sqlite3
