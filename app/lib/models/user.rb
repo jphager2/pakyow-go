@@ -18,11 +18,7 @@ class User < ActiveRecord::Base
   def self.auth(session)
     user = find_by(email: session[:email])
 
-    if user && user.auth?(session.password)
-      return user
-    else
-      return nil
-    end
+    user if user && user.auth?(session.password)
   end
 
   def guest?
@@ -44,7 +40,12 @@ class User < ActiveRecord::Base
     self.crypted_password = BCrypt::Password.create(password)
   end
 
+  def take_ownership(records)
+    records.update_all(user_id: id)
+  end
+
   private
+
   def downcase_email
     @email = @email.to_s.downcase
   end

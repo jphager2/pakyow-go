@@ -12,16 +12,14 @@ module Pakyow::Helpers
   end
 
   def current_guest_user
-    if session[:guest_user]
-      guest = GuestUser.find(session[:guest_user])
-    else
-      guest = GuestUser.new
-      guest.save(validate: false)
+    return GuestUser.find(session[:guest_user]) if session[:guest_user]
+
+    GuestUser.create.tap do |guest|
       session[:guest_user] = guest.id
-      guest
     end
   rescue ActiveRecord::RecordNotFound
     session[:guest_user] = nil
+    current_guest_user
   end
 
   def current_or_guest_user
@@ -29,17 +27,15 @@ module Pakyow::Helpers
   end
 
   def current_game(size = 9)
-    if persisted_game? 
-      persisted_game
-    else
-      persist_game(Game.new(board: size))
-      persisted_game
-    end
+    persist_game(Game.new(board: size)) unless persisted_game? 
+
+    persisted_game
   end
 
   def persisted_game
-    data(:game)
-      .find_by(id: current_or_guest_user.persisted_games.pluck(:id).last)
+    data(:game).find_by(
+      id: current_or_guest_user.persisted_games.pluck(:id).last
+    )
   end
 
   def persisted_game?

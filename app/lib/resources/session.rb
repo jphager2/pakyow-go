@@ -14,6 +14,11 @@ Pakyow::App.resource :session, '/sessions' do
 
     if user = User.auth(@session)
       session[:user] = user.id
+      if current_guest_user
+        user.take_ownership(current_guest_user.persisted_games)
+        current_guest_user.destroy
+        session[:guest_user] = nil
+      end
       redirect router.path(:default)
     else
       @errors = ['Invalid email and/or password']
