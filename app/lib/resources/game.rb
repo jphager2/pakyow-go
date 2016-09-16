@@ -3,8 +3,8 @@ Pakyow::App.routes :game do
     @file_name = @pgame.data.name + '.sgf'
     tempfile = Tempfile.open('game_record')
     tempfile.write(@game.to_sgf)
-    tempfile.rewind
-    @file = tempfile.to_io
+    tempfile.close
+    @file = File.open(tempfile.path, 'r')
   end
 
   fn :tap_current_game do 

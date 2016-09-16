@@ -137,11 +137,12 @@ Pakyow::App.bindings do
 
   scope :email_game do
     binding :action do
-      {
-        action: router.group(:game)
-          .path(:send_email, game_id: bindable.id),
-        method: :post
-      }
+      part :action do
+        router.group(:game).path(:send_email, game_id: bindable.id)
+      end
+      part :method do
+        :post
+      end
     end
   end
 
