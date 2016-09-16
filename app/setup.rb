@@ -14,7 +14,7 @@ Pakyow::App.define do
     mailer.default_sender = app.name
     mailer.delivery_method = LetterOpener::DeliveryMethod
     mailer.delivery_options[:location] = File.expand_path(
-      '../tmp/letter_opener', __FILE__
+      '../../tmp/letter_opener', __FILE__
     )
 
     config_file = File.expand_path('../config/database.yml', __dir__)
