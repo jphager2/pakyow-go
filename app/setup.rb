@@ -46,7 +46,7 @@ Pakyow::App.define do
   configure :production do
     app.static = true
     logger.stdout = true
-    realtime.redis = { url: "redis://h:p7vo203cje5f5o48slhgm2ds1ko@ec2-54-235-76-229.compute-1.amazonaws.com:6909" }
+    realtime.redis = { url: ENV['REDIS_URL'] }
 
     $db = ActiveRecord::Base.establish_connection(:production)
   end
